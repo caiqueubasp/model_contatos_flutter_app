@@ -1,6 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import 'dart:async';
+
 final String contactTable = "contactTable";
 final String idColumn = "idColumn";
 final String nameColumn = "nameColumn";
@@ -40,7 +42,7 @@ class ContactHelper {
     });
   }
 
- Future<Contact> saveContact(contact) async {
+ Future<Contact> saveContact(Contact contact) async {
     Database dbContact = await db;
     contact.id = await dbContact.insert(contactTable, contact.toMap());
     return contact;
@@ -108,23 +110,22 @@ class Contact {
       email = map[emailColumn];
       phone = map[phoneColumn];
       img = map[imgColumn];
+  }
 
-      Map toMap(){
-        Map<String, dynamic> map = {
-          nameColumn: name,
-          emailColumn: email,
-          phoneColumn: phone,
-          imgColumn: img,
+  Map toMap(){
+    Map<String, dynamic> map = {
+      nameColumn: name,
+      emailColumn: email,
+      phoneColumn: phone,
+      imgColumn: img,
 
-        };
+    };
 
-        if(id != null){
-          map[idColumn] = id;
-        }
+    if(id != null){
+      map[idColumn] = id;
+    }
 
-        return map;
-      }
-
+    return map;
   }
 
   @override
